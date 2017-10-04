@@ -11,17 +11,17 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class StudentModel
+public class CourseModel
 {
-    @NotNull
-	private String npm;
+	@NotNull
+	private String idCourse;
     
-    @NotNull
+	@NotNull
     private String name;
     
-    @NotNull
-    private double gpa;
+	@NotNull
+    private Integer credits;
     
-    private List<CourseModel> courses;
+    private List<StudentModel> students;
 
 }

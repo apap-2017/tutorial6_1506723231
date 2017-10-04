@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.dao.StudentMapper;
+import com.example.model.CourseModel;
 import com.example.model.StudentModel;
 
 import lombok.extern.slf4j.Slf4j;
@@ -54,5 +55,13 @@ public class StudentServiceDatabase implements StudentService
     		studentMapper.updateStudent(student);
     		log.info("student " + student.getNpm() + " updated");
     }
+
+
+	@Override
+	public CourseModel selectCourse(String id) {
+		CourseModel course = studentMapper.selectCourse(id);
+		log.info ("select course with id " + course.getIdCourse());
+		return course;
+	}
 
 }
