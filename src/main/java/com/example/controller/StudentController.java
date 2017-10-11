@@ -25,15 +25,17 @@ public class StudentController
 
 
     @RequestMapping("/")
-    public String index ()
+    public String index (Model model)
     {
+    		model.addAttribute("title", "Homepage");
         return "index";
     }
 
 
     @RequestMapping("/student/add")
-    public String add ()
+    public String add (Model model)
     {
+    		model.addAttribute("title", "Tambah Mahasiswa");
         return "form-add";
     }
 
@@ -42,11 +44,14 @@ public class StudentController
     public String addSubmit (
             @RequestParam(value = "npm", required = false) String npm,
             @RequestParam(value = "name", required = false) String name,
-            @RequestParam(value = "gpa", required = false) double gpa)
+            @RequestParam(value = "gpa", required = false) double gpa,
+            Model model)
     {
         StudentModel student = new StudentModel (npm, name, gpa, null);
         studentDAO.addStudent (student);
 
+        model.addAttribute("title", "Tambah Mahasiswa");
+        
         return "success-add";
     }
 
@@ -59,9 +64,11 @@ public class StudentController
 
         if (student != null) {
             model.addAttribute ("student", student);
+            model.addAttribute("title", "View Mahasiswa");
             return "view";
         } else {
             model.addAttribute ("npm", npm);
+            model.addAttribute("title", "Mahasiswa Tidak Ditemukan");
             return "not-found";
         }
     }
@@ -75,9 +82,11 @@ public class StudentController
 
         if (student != null) {
             model.addAttribute ("student", student);
+            model.addAttribute("title", "View By NPM");
             return "view";
         } else {
             model.addAttribute ("npm", npm);
+            model.addAttribute("title", "Mahasiswa Tidak Ditemukan");
             return "not-found";
         }
     }
@@ -89,6 +98,7 @@ public class StudentController
     		CourseModel course = studentDAO.selectCourse(id);
     		
     		model.addAttribute("course", course);
+    		model.addAttribute("title", "Tampilkan Course");
     		
     		return "view-course";
     }
@@ -99,6 +109,7 @@ public class StudentController
     {
         List<StudentModel> students = studentDAO.selectAllStudents ();
         model.addAttribute ("students", students);
+        model.addAttribute("title", "View All Mahasiswa");
 
         return "viewall";
     }
@@ -111,9 +122,11 @@ public class StudentController
     		
         if (student != null) {
 	        	studentDAO.deleteStudent (npm);
+	        	model.addAttribute("title", "Delete Mahasiswa");
 	        	return "delete";
         }
         else {
+        		model.addAttribute("title", "Mahasiswa Tidak Ditemukan");
         		return "not-found";
         }
 
@@ -125,17 +138,20 @@ public class StudentController
     		
     		if (student != null) {
     			model.addAttribute("student", student);
+    			model.addAttribute("title", "Update Mahasiswa");
     			return "form-update";
     		}
     		else {
+    			model.addAttribute("title", "Mahasiswa Tidak Ditemukan");
     			return "not-found";
     		}
     }
     
     @RequestMapping(value = "/student/update/submit", method = RequestMethod.POST)
-    public String updateSubmit(@Valid @ModelAttribute("student") StudentModel student) {
+    public String updateSubmit(@Valid @ModelAttribute("student") StudentModel student, Model model) {
     	
     		studentDAO.updateStudent(student);
+    		model.addAttribute("title", "Update Mahasiswa");
     		
     		return "success-update";
     }
